@@ -286,7 +286,7 @@ abstract class Element
   /** Проверка по списку фильтров */
   protected function validateFilters()
   {
-    if (!is_null($this->value) && !empty($this->filters)) {
+    if (!empty($this->value) && !empty($this->filters)) {
       foreach ($this->filters as $filter) {
         if (is_null(Filter::Value($this->value, $filter, null))) {
           $this->addError(sprintf($this->tmpl_err_wrong, $this->getName()));

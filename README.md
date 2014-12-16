@@ -11,7 +11,7 @@ $f = new Form($request);
 $f->addInput('name', 'Имя')
   ->addFilter('!^[a-z]+$!i');
 $f->addCheckbox('is_active', 'Вкл');
-$f->addSelect('status', array('new' => 'Новый', 'old' => 'Старый'), 'Статус');
+$f->addSelect('status', 'Статус', array('new' => 'Новый', 'old' => 'Старый'));
 $f->addFile('image', 'Изображение')
   ->setIsRequired();
     

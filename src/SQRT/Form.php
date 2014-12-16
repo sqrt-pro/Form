@@ -130,7 +130,7 @@ class Form
   }
 
   /** @return Element\Checkbox */
-  public function addCheckbox($field, $name = null, $options = null)
+  public function addCheckbox($field, $name = null, array $options = null)
   {
     $el = new Element\Checkbox($field, $name, $this);
 
@@ -153,7 +153,7 @@ class Form
   }
 
   /** @return Element\Radio */
-  public function addRadio($field, array $options, $name = null)
+  public function addRadio($field, $name = null, array $options = null)
   {
     $el = new Element\Radio($field, $options, $name, $this);
     $this->add($el);
@@ -162,7 +162,7 @@ class Form
   }
 
   /** @return Element\Select */
-  public function addSelect($field, array $options, $name = null)
+  public function addSelect($field, $name = null, array $options = null)
   {
     $el = new Element\Select($field, $options, $name, $this);
     $this->add($el);

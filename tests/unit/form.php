@@ -19,11 +19,11 @@ class formTest extends PHPUnit_Framework_TestCase
 
     $this->assertEquals($el, $f->field('is_active'));
 
-    $el = $f->addRadio('type', $arr, 'Тип');
+    $el = $f->addRadio('type', 'Тип', $arr);
     $this->assertInstanceOf('SQRT\Form\Element\Radio', $el, 'Радиобатон');
     $this->assertEquals($arr, $el->getOptions(), 'Список опций');
 
-    $el = $f->addSelect('status', $arr, 'Статус');
+    $el = $f->addSelect('status', 'Статус', $arr);
     $this->assertInstanceOf('SQRT\Form\Element\Select', $el, 'Селектбокс');
     $this->assertEquals($arr, $el->getOptions(), 'Список опций');
 
@@ -50,7 +50,8 @@ class formTest extends PHPUnit_Framework_TestCase
     $f->addInput('name')
       ->addFilter('!^[a-z]+$!i')
       ->setDefaultValue('hello');
-    $f->addSelect('age', $arr)
+    $f->addSelect('age')
+      ->setOptions($arr)
       ->setIsRequired(true);
 
     $this->assertFalse($f->getErrors(), 'До валидации ошибок нет');

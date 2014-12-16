@@ -197,6 +197,10 @@ class Form
   {
     $this->reset();
 
+    if (!$this->isSent($data)) {
+      return false;
+    }
+
     if (!$this->checkCaptcha($data)) {
       $this->addError($this->getErrCaptcha());
     }
@@ -396,6 +400,27 @@ class Form
     }
 
     return $v;
+  }
+
+  /** Проверка, отправлена ли форма */
+  protected function isSent($data = null)
+  {
+    if (!is_null($data)) {
+      return true;
+    }
+
+    if ($name = $this->getName()) {
+      return (bool)$this->getRequest()->get($name);
+    }
+
+    $req = $this->getRequest();
+    foreach ($this->fields as $n => $f) {
+      if ($req->request->has($n) || $req->query->has($n)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**

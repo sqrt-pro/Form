@@ -33,11 +33,17 @@ abstract class Element
     $this->name  = $name;
   }
 
+  /**
+   * Отрисовка элемента
+   *
+   * @return Tag
+   */
   public function render($attr = null)
   {
     return new Input($this->getInputName(), $this->getValue(), $this->prepareAttr($attr, true));
   }
 
+  /** Сброс значений и ошибок */
   public function reset($reset_defaults = false)
   {
     $this->errors = null;
@@ -48,6 +54,7 @@ abstract class Element
     }
   }
 
+  /** Получить значение элемента */
   public function getValue($only_valid = false)
   {
     if ($only_valid && !$this->isValid()) {
@@ -57,6 +64,7 @@ abstract class Element
     return is_null($this->value) ? $this->getDefaultValue() : $this->value;
   }
 
+  /** Установить значение по-умолчанию */
   public function setDefaultValue($value)
   {
     $this->default_value = $value;
@@ -64,26 +72,31 @@ abstract class Element
     return $this;
   }
 
+  /** Получить значение по-умолчанию */
   public function getDefaultValue()
   {
     return $this->default_value;
   }
 
+  /** Атрибуты для отрисовки тега */
   public function setAttr($attr)
   {
     $this->attr = $attr;
   }
 
+  /** Атрибуты для отрисовки тега */
   public function getAttr()
   {
     return $this->attr;
   }
 
+  /** Является ли поле обязательным */
   public function isRequired()
   {
     return (bool)$this->is_required;
   }
 
+  /** Является ли поле обязательным */
   public function setIsRequired($required = true)
   {
     $this->is_required = $required;
@@ -91,6 +104,7 @@ abstract class Element
     return $this;
   }
 
+  /** Валидация значения */
   public function validate($value)
   {
     $this->reset();
@@ -103,6 +117,7 @@ abstract class Element
     return $this->isValid();
   }
 
+  /** Добавить ошибку */
   public function addError($error)
   {
     $this->errors[] = $error;
@@ -110,6 +125,7 @@ abstract class Element
     return $this;
   }
 
+  /** Является ли значение валидным */
   public function isValid()
   {
     return empty($this->errors);
@@ -173,12 +189,17 @@ abstract class Element
     return 'form-' . ($n ? $n . '-' : '') . $this->getField();
   }
 
+  /** Плейсхолдер для тегов */
   public function getPlaceholder()
   {
     return $this->placeholder;
   }
 
-  /** @return static */
+  /**
+   * Плейсхолдер для тегов
+   *
+   * @return static
+   */
   public function setPlaceholder($placeholder)
   {
     $this->placeholder = $placeholder;
@@ -192,6 +213,7 @@ abstract class Element
     return $this->form;
   }
 
+  /** @return static */
   public function setForm(Form $form)
   {
     $this->form = $form;

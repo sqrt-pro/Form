@@ -121,6 +121,17 @@ class formTest extends PHPUnit_Framework_TestCase
     $this->assertEquals($exp, $f->getValues(), 'Фильтры до и после могут изменять итоговые данные');
   }
 
+  function testNotSent()
+  {
+    $r = Request::create('/');
+    $f = new Form($r);
+    $f->addInput('age')
+      ->setIsRequired();
+
+    $this->assertFalse($f->validate(), 'Данные не переданы - форма невалидна');
+    $this->assertFalse($f->getErrors(), 'Ошибок нет');
+  }
+
   function testProcess()
   {
     $r = Request::create('/');
@@ -136,7 +147,7 @@ class formTest extends PHPUnit_Framework_TestCase
       }
     );
 
-    $f->validate();
+    $f->validate(array());
     $exp = 'Обязательное поле "age" не заполнено';
     $this->assertEquals($exp, $f->getErrors(' '), 'Процессинг не сработал, т.к. форма невалидна');
 

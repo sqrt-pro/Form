@@ -76,6 +76,22 @@ class formTest extends PHPUnit_Framework_TestCase
     $this->assertEquals('John', $f->getValue('name'), 'Получение значения по имени поля');
   }
 
+  function testEmptyValWithFilters()
+  {
+    $r = Request::create('/');
+    $f = new Form($r);
+    $f->addInput('name')
+      ->setIsRequired();
+    $f->addInput('age')
+      ->addFilter('!^[0-9]+$!');
+
+    $this->assertTrue($f->validate(array('name' => 'John')), 'Форма валидна');
+    $this->assertFalse($f->getErrors(), 'Ошибок нет');
+
+    $arr = $f->getValues();
+    $this->assertNull($arr['age'], 'В результирующем массиве отсутствующее поле будет заполнено null');
+  }
+
   function testBeforeAfterValidation()
   {
     $r = Request::create('/');

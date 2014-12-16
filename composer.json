@@ -1,0 +1,19 @@
+{
+    "name": "sqrt-pro/form",
+    "description": "Form is part of SQRT Framework",
+    "homepage": "http://fw.sqrt.pro",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/http-kernel": "2.*",
+        "sqrt-pro/tag": "dev-master",
+        "sqrt-pro/helpers": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "SQRT": "src"
+        }
+    },
+    "minimum-stability": "dev"
+}

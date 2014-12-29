@@ -386,13 +386,13 @@ class Form
     $is_file = $element instanceof Element\File;
 
     if (!is_null($data)) {
-      $v = isset($data[$field]) ? $data[$field] : null;
+      $v = isset($data[$field]) ? $data[$field] : false;
     } else {
       $input_name = $element->getInputName();
 
       $v = $is_file
-        ? $this->getRequest()->files->get($input_name, null, true)
-        : $this->getRequest()->get($input_name, null, true);
+        ? $this->getRequest()->files->get($input_name, false, true)
+        : $this->getRequest()->get($input_name, false, true);
     }
 
     if ($is_file) {

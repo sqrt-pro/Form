@@ -242,10 +242,12 @@ class elementTest extends PHPUnit_Framework_TestCase
     $el->validate($uf);
     $this->assertEquals($uf, $el->getValue(), 'Значение поля - загруженный файл');
     $this->assertEquals('txt', $el->getExtension(), 'Расширение загруженного файла');
+    $this->assertEquals('hello.txt', $el->getFilename(), 'Расширение загруженного файла');
 
     $f = new \Symfony\Component\HttpFoundation\File\File(__FILE__);
     $el->validate($f);
 
     $this->assertEquals('php', $el->getExtension(), 'Расширение файла');
+    $this->assertEquals('element.php', $el->getFilename(), 'Расширение загруженного файла');
   }
 }

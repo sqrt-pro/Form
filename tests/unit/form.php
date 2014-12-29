@@ -47,6 +47,8 @@ class formTest extends PHPUnit_Framework_TestCase
     $f   = new Form($r);
     $arr = array(1 => 'One', 2 => 'Two');
 
+    $f->addCheckbox('is_active')
+      ->setDefaultValue(1);
     $f->addInput('name')
       ->addFilter('!^[a-z]+$!i')
       ->setDefaultValue('hello');
@@ -73,7 +75,7 @@ class formTest extends PHPUnit_Framework_TestCase
     $arr = array('name' => 'John', 'age' => 2, 'unused' => 123);
     $this->assertTrue($f->validate($arr), 'Валидация произвольных данных');
 
-    $this->assertEquals(array('name' => 'John', 'age' => 2), $f->getValues(), 'Чистые данные после валидации');
+    $this->assertEquals(array('is_active' => false, 'name' => 'John', 'age' => 2), $f->getValues(), 'Чистые данные после валидации');
     $this->assertEquals('John', $f->getValue('name'), 'Получение значения по имени поля');
   }
 
@@ -90,7 +92,7 @@ class formTest extends PHPUnit_Framework_TestCase
     $this->assertFalse($f->getErrors(), 'Ошибок нет');
 
     $arr = $f->getValues();
-    $this->assertNull($arr['age'], 'В результирующем массиве отсутствующее поле будет заполнено null');
+    $this->assertFalse($arr['age'], 'В результирующем массиве отсутствующее поле будет заполнено false');
   }
 
   function testBeforeAfterValidation()

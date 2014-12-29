@@ -28,6 +28,18 @@ class File extends Element
     return false;
   }
 
+  /** Имя файла, если он загружен */
+  public function getFilename()
+  {
+    $f = $this->getValue();
+
+    if ($f) {
+      return $f instanceof UploadedFile ? $f->getClientOriginalName() : $f->getFilename();
+    }
+
+    return false;
+  }
+
   /**
    * Обычный файл копируется, загруженный - move_uploaded_file
    *
@@ -66,4 +78,12 @@ class File extends Element
   {
     return parent::validate($value);
   }
+
+  /** У файла не бывает значения по-умолчанию */
+  public function getDefaultValue()
+  {
+    return false;
+  }
+
+
 }

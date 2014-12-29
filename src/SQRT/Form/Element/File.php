@@ -84,6 +84,4 @@ class File extends Element
   {
     return false;
   }
-
-
 }

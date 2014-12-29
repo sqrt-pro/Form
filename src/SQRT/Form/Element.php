@@ -82,6 +82,8 @@ abstract class Element
   public function setAttr($attr)
   {
     $this->attr = $attr;
+
+    return $this;
   }
 
   /** Атрибуты для отрисовки тега */

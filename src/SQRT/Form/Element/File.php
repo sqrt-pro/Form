@@ -13,7 +13,7 @@ class File extends Element
 {
   public function render($attr = null)
   {
-    return new \SQRT\Tag\Input($this->getInputName(), $this->getValue(), $this->prepareAttr($attr), 'file');
+    return new \SQRT\Tag\Input($this->getInputName(), null, $this->prepareAttr($attr), 'file');
   }
 
   /** Расширение файла, если он загружен */

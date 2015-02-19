@@ -5,6 +5,7 @@ require_once __DIR__ . '/../init.php';
 use SQRT\Form;
 use SQRT\Form\Element;
 use SQRT\Form\Element\Input;
+use SQRT\Form\Element\Checkbox;
 use Symfony\Component\HttpFoundation\Request;
 
 class elementTest extends PHPUnit_Framework_TestCase
@@ -25,6 +26,31 @@ class elementTest extends PHPUnit_Framework_TestCase
     $this->assertEmpty($el->getValue(true), 'Валидного значения нет');
 
     $this->assertEquals(array('Поле "age" заполнено некорректно'), $el->getErrors(), 'Текст ошибок');
+  }
+
+  function testArrayValidation()
+  {
+    $el = new Checkbox('level');
+    $el->setOptions(array(1 => 'One', 2 => 'Two', 3 => 'Three'));
+
+    $this->assertTrue($el->validate(array(1, 3)), 'Массив содержит допустимые элементы');
+    $this->assertEquals(array(1, 3), $el->getValue(true), 'Значение поля - массив');
+
+    $this->assertTrue($el->validate(1), 'Одиночное значение');
+    $this->assertEquals(array(1), $el->getValue(true), 'Значение поля - массив с одним значением');
+
+    $this->assertTrue($el->validate(array(1, 4)), 'После валидации останется одно корректное значение');
+    $this->assertEquals(array(1), $el->getValue(true), 'Значение поля - массив с одним значением');
+
+    $this->assertFalse($el->validate(4), 'Неверное значение');
+    $this->assertEquals(array(), $el->getValue(true), 'Пустой массив');
+
+    $this->assertTrue($el->validate(array()), 'Пустой массив');
+
+    $el->setMultipleChoiceAllowed(false);
+    $this->assertFalse($el->validate(array(1, 3)), 'Массив содержит допустимые элементы, но запрещен мультивыбор');
+    $this->assertFalse($el->getValue(true), 'Значения нет');
+
   }
 
   function testErrorsJoin()

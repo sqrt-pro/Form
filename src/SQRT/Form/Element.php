@@ -9,6 +9,7 @@ use SQRT\Helpers\Filter;
 
 abstract class Element
 {
+  protected $allow_multiple_choice;
   protected $default_value;
   protected $is_required;
   protected $placeholder;
@@ -54,14 +55,23 @@ abstract class Element
     }
   }
 
-  /** Получить значение элемента */
+  /**
+   * Получить значение элемента. Если стоит флаг multiple choice, всегда будет возвращаться массив
+   * @return mixed|array
+   */
   public function getValue($only_valid = false)
   {
     if ($only_valid && !$this->isValid()) {
-      return false;
+      return $this->isMultipleChoiceAllowed() ? array() : false;
     }
 
-    return is_null($this->value) ? $this->getDefaultValue() : $this->value;
+    $v = is_null($this->value) ? $this->getDefaultValue() : $this->value;
+
+    if ($this->isMultipleChoiceAllowed()) {
+      $v = (array) $v;
+    }
+
+    return $v;
   }
 
   /** Установить значение по-умолчанию */
@@ -273,6 +283,20 @@ abstract class Element
     return $this->tmpl_err_wrong;
   }
 
+  /** Дать возможность ввода нескольких значений */
+  public function setMultipleChoiceAllowed($allow = true)
+  {
+    $this->allow_multiple_choice = $allow;
+
+    return $this;
+  }
+
+  /** Включена ли возможность ввода нескольких значений */
+  public function isMultipleChoiceAllowed()
+  {
+    return $this->allow_multiple_choice;
+  }
+
   /** Проверка обязательных элементов */
   protected function validateRequired()
   {
@@ -290,7 +314,15 @@ abstract class Element
   {
     if (!empty($this->value) && !empty($this->filters)) {
       foreach ($this->filters as $filter) {
-        if (is_null(Filter::Value($this->value, $filter, null))) {
+        if (is_array($this->value) && $this->isMultipleChoiceAllowed()) {
+          $this->value = Filter::Arr($this->value, $filter, null);
+
+          $bad = empty($this->value);
+        } else {
+          $bad = is_null(Filter::Value($this->value, $filter, null));
+        }
+
+        if ($bad) {
           $this->addError(sprintf($this->tmpl_err_wrong, $this->getName()));
 
           return false;

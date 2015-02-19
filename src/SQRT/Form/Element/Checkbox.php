@@ -48,4 +48,13 @@ class Checkbox extends ElementWithOptions
 
     return $this;
   }
+
+  public function setOptions(array $options, $add_filter = true, $ignore_keys = null)
+  {
+    parent::setOptions($options, $add_filter, $ignore_keys);
+
+    $this->setMultipleChoiceAllowed();
+
+    return $this;
+  }
 }

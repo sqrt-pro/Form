@@ -1,11 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../init.php';
-
 use SQRT\Form;
 use Symfony\Component\HttpFoundation\Request;
 
-class formTest extends PHPUnit_Framework_TestCase
+class FormTest extends PHPUnit_Framework_TestCase
 {
   function testAddElement()
   {

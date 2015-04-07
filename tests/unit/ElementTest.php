@@ -1,14 +1,12 @@
 <?php
 
-require_once __DIR__ . '/../init.php';
-
 use SQRT\Form;
 use SQRT\Form\Element;
 use SQRT\Form\Element\Input;
 use SQRT\Form\Element\Checkbox;
 use Symfony\Component\HttpFoundation\Request;
 
-class elementTest extends PHPUnit_Framework_TestCase
+class ElementTest extends PHPUnit_Framework_TestCase
 {
   function testValidation()
   {
@@ -274,6 +272,6 @@ class elementTest extends PHPUnit_Framework_TestCase
     $el->validate($f);
 
     $this->assertEquals('php', $el->getExtension(), 'Расширение файла');
-    $this->assertEquals('element.php', $el->getFilename(), 'Расширение загруженного файла');
+    $this->assertEquals('ElementTest.php', $el->getFilename(), 'Расширение загруженного файла');
   }
 }

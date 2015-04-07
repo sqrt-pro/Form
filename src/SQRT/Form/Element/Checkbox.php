@@ -10,8 +10,11 @@ class Checkbox extends ElementWithOptions
 {
   protected $input_value = 1;
 
-  /** @return \SQRT\Tag\Checkbox|CheckboxListing */
-  public function render()
+  /**
+   * TODO: $attr не используется
+   * @return \SQRT\Tag\Checkbox|CheckboxListing
+   */
+  public function render($attr = null)
   {
     if ($this->getOptions()) {
       $tag = new CheckboxListing(

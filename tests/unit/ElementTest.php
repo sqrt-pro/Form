@@ -125,10 +125,11 @@ class ElementTest extends PHPUnit_Framework_TestCase
     $this->assertTrue($el->validate('one'), 'Используется значение массива');
     $this->assertFalse($el->validate(1), 'Ключи массива не проходят');
 
-    $exp = '<select id="form-type" name="type"><option value="one">one</option>' . "\n"
+    $exp = '<select class="ololo" id="form-type" name="type">'
+      . '<option value="one">one</option>' . "\n"
       . '<option value="two">two</option>' . "\n"
       . '</select>';
-    $this->assertEquals($exp, $el->render()->toHTML(), 'Стандартный рендер в SELECT без ключей');
+    $this->assertEquals($exp, $el->render('ololo')->toHTML(), 'Стандартный рендер в SELECT без ключей');
   }
 
   function testRenderInputNameAndId()
@@ -273,5 +274,13 @@ class ElementTest extends PHPUnit_Framework_TestCase
 
     $this->assertEquals('php', $el->getExtension(), 'Расширение файла');
     $this->assertEquals('ElementTest.php', $el->getFilename(), 'Расширение загруженного файла');
+
+    try {
+      $el->validate('ololo');
+
+      $this->fail('Ожидаемое исключение');
+    } catch (Form\Exception $e) {
+      $this->assertEquals(Form\Exception::VALUE_IS_NOT_FILE, $e->getCode(), 'Код исключения');
+    }
   }
 }

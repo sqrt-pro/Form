@@ -3,6 +3,7 @@
 namespace SQRT\Form\Element;
 
 use SQRT\Form\Element;
+use SQRT\Form\Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -74,8 +75,17 @@ class File extends Element
     return false;
   }
 
-  public function validate(\Symfony\Component\HttpFoundation\File\File $value = null)
+  /**
+   * На валидацию принимается объект File или null
+   *
+   * @throws Exception
+   */
+  public function validate($value)
   {
+    if (!is_null($value) && !($value instanceof \Symfony\Component\HttpFoundation\File\File)) {
+      Exception::ThrowError(Exception::VALUE_IS_NOT_FILE);
+    }
+
     return parent::validate($value);
   }
 

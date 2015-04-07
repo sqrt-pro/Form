@@ -17,7 +17,11 @@ class Radio extends ElementWithOptions
     }
   }
 
-  public function render()
+  /**
+   * TODO: $attr не используется
+   * @return RadioListing
+   */
+  public function render($attr = null)
   {
     $t = new RadioListing($this->getInputName(), $this->getOptions(), $this->getValue());
 

@@ -1,6 +1,6 @@
 # Form
 
-[![Build Status](https://travis-ci.org/sqrt-pro/Form.svg?branch=v.0.1.0)](https://travis-ci.org/sqrt-pro/Form)
+[![Build Status](https://travis-ci.org/sqrt-pro/Form.svg?branch=master)](https://travis-ci.org/sqrt-pro/Form)
 [![Coverage Status](https://coveralls.io/repos/sqrt-pro/Form/badge.svg?branch=master)](https://coveralls.io/r/sqrt-pro/Form?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/sqrt-pro/form/version.svg)](https://packagist.org/packages/sqrt-pro/form)
 [![License](https://poser.pugx.org/sqrt-pro/form/license.svg)](https://packagist.org/packages/sqrt-pro/form)

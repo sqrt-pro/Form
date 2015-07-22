@@ -43,7 +43,12 @@ class ElementTest extends PHPUnit_Framework_TestCase
     $this->assertFalse($el->validate(4), 'Неверное значение');
     $this->assertEquals(array(), $el->getValue(true), 'Пустой массив');
 
+    $this->assertTrue($el->validate(''), 'Пустое значение');
+    $this->assertEquals(array(), $el->getValue(true), 'Значения нет');
+
+
     $this->assertTrue($el->validate(array()), 'Пустой массив');
+    $this->assertEquals(array(), $el->getValue(true), 'Значения нет');
 
     $el->setMultipleChoiceAllowed(false);
     $this->assertFalse($el->validate(array(1, 3)), 'Массив содержит допустимые элементы, но запрещен мультивыбор');

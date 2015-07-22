@@ -68,7 +68,7 @@ abstract class Element
     $v = is_null($this->value) ? $this->getDefaultValue() : $this->value;
 
     if ($this->isMultipleChoiceAllowed()) {
-      $v = (array) $v;
+      $v = !empty($v) ? (array) $v : array();
     }
 
     return $v;

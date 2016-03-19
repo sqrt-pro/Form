@@ -205,7 +205,7 @@ class Form
       $this->addError($this->getErrCaptcha());
     }
 
-    $data = $this->beforeValidation($this->getValuesFromRequest($data));
+    $data = $this->beforeValidation($this->getValuesForValidation($data));
 
     foreach ($this->fields as $field => $el) {
       $el->validate($data[$field]);
@@ -248,6 +248,27 @@ class Form
     $v = $this->getValues();
 
     return isset($v[$field]) ? $v[$field] : false;
+  }
+
+  /** Получить "сырое" значение поля из Request */
+  public function getValueFromRequest($field, $default = false)
+  {
+    if (!$element = $this->field($field)) {
+      return $default;
+    }
+
+    $req = $this->getRequest();
+    $input_name = $element->getInputName();
+
+    return $element instanceof Element\File
+      ? $req->files->get($input_name, $default, true)
+      : $req->get($input_name, $default, true);
+  }
+
+  /** Проверка, есть ли значение в Request */
+  public function checkRequestHasValue($field)
+  {
+    return !is_null($this->getValueFromRequest($field, null));
   }
 
   /** Есть ли ошибки в форме */
@@ -369,37 +390,16 @@ class Form
   }
 
   /** Получить все значения из $data или из Request */
-  protected function getValuesFromRequest($data = null)
+  protected function getValuesForValidation($data = null)
   {
     $out = array();
     foreach ($this->fields as $field => $el) {
-      $out[$field] = $this->getValueFromRequest($el, $data);
+      $out[$field] = !is_null($data)
+        ? isset($data[$field]) ? $data[$field] : false
+        : $this->getValueFromRequest($field);
     }
 
     return $out;
-  }
-
-  /** Получить значение из $data или из Request */
-  protected function getValueFromRequest(Element $element, $data = null)
-  {
-    $field   = $element->getField();
-    $is_file = $element instanceof Element\File;
-
-    if (!is_null($data)) {
-      $v = isset($data[$field]) ? $data[$field] : false;
-    } else {
-      $input_name = $element->getInputName();
-
-      $v = $is_file
-        ? $this->getRequest()->files->get($input_name, false, true)
-        : $this->getRequest()->get($input_name, false, true);
-    }
-
-    if ($is_file) {
-      return $v instanceof File ? $v : null;
-    }
-
-    return $v;
   }
 
   /** Проверка, отправлена ли форма */
@@ -413,9 +413,8 @@ class Form
       return (bool)$this->getRequest()->get($name);
     }
 
-    $req = $this->getRequest();
     foreach ($this->fields as $n => $f) {
-      if ($req->request->has($n) || $req->query->has($n)) {
+      if ($this->checkRequestHasValue($n)) {
         return true;
       }
     }

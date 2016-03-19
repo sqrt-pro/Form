@@ -82,7 +82,7 @@ class File extends Element
    */
   public function validate($value)
   {
-    if (!is_null($value) && !($value instanceof \Symfony\Component\HttpFoundation\File\File)) {
+    if ($value && !($value instanceof \Symfony\Component\HttpFoundation\File\File)) {
       Exception::ThrowError(Exception::VALUE_IS_NOT_FILE);
     }
 

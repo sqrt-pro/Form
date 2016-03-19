@@ -54,6 +54,9 @@ class FormTest extends PHPUnit_Framework_TestCase
       ->setOptions($arr)
       ->setIsRequired(true);
 
+    $this->assertTrue($f->checkRequestHasValue('name'));
+    $this->assertFalse($f->checkRequestHasValue('non_exists'));
+
     $this->assertFalse($f->getErrors(), 'До валидации ошибок нет');
     $this->assertFalse($f->getValues(), 'Валидных данных нет');
 
@@ -181,7 +184,7 @@ class FormTest extends PHPUnit_Framework_TestCase
     $f->addFile('image', 'Изображение')
       ->setIsRequired();
 
-    $f->validate(array('image' => 'ololo'));
+    $f->validate(array('image' => ''));
     $this->assertEquals('Обязательное поле "Изображение" не заполнено', $f->getErrors(' '), 'Ошибка');
 
     $file = new \Symfony\Component\HttpFoundation\File\File(__FILE__);
@@ -207,6 +210,9 @@ class FormTest extends PHPUnit_Framework_TestCase
     $f->addFile('image', 'Изображение');
 
     $f->validate();
+
+    $this->assertTrue($f->checkRequestHasValue('name'));
+    $this->assertTrue($f->checkRequestHasValue('image'));
 
     $this->assertEquals('John', $f->getValue('name'), 'Имя');
     $this->assertFalse($f->getErrors(' '), 'Ошибки');
